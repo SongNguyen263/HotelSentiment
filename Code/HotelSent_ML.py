@@ -148,6 +148,8 @@ test_labels = torch.tensor(test_labels)
 # Chuyển đổi nhãn thành dạng one-hot
 y_train = to_categorical(train_labels)
 print(y_train.shape)
+y_val = to_categorical(val_labels)
+print(y_val.shape)
 
 # Chuyển đổi nhãn từ one-hot thành dạng 1D
 y_train_1d = np.argmax(y_train, axis=1)
