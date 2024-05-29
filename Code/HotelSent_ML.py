@@ -80,7 +80,7 @@ test_labels = to_categorical(y_test - 1, num_classes=3)
 
 from gensim.models import KeyedVectors
 
-w2vModel = word2vec.KeyedVectors.load_word2vec_format('MLmodel/W2VWE/baomoi.model.bin', binary=True, limit=50000)
+w2vModel = word2vec.KeyedVectors.load_word2vec_format('word2vec-GoogleNews-vectors/GoogleNews-vectors-negative300.bin.gz', binary=True, limit=50000)
 
 tokenizer = Tokenizer()
 
