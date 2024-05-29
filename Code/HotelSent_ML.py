@@ -37,7 +37,7 @@ from keras.utils import to_categorical
 
 label_mapping = {'pos': 1, 'neu': 2, 'neg': 3}
 
-X_train = pd.read_excel("data/Data_train.xlsx")
+X_train = pd.read_excel("../data/Data_train.xlsx")
 
 if X_train.isnull().values.any():
     X_train = X_train.dropna()
@@ -60,7 +60,7 @@ from keras.utils import to_categorical
 # Assuming 'pos', 'neu', 'neg' are your unique classes
 label_mapping = {'pos': 1, 'neu': 2, 'neg': 3}
 
-X_test = pd.read_excel(r"data/Data_test.xlsx")
+X_test = pd.read_excel(r"../data/Data_test.xlsx")
 
 if X_test.isnull().values.any():
     X_test = X_test.dropna()
@@ -80,7 +80,7 @@ test_labels = to_categorical(y_test - 1, num_classes=3)
 
 from gensim.models import KeyedVectors
 
-w2vModel = word2vec.KeyedVectors.load_word2vec_format('word2vec-GoogleNews-vectors/GoogleNews-vectors-negative300.bin.gz', binary=True, limit=50000)
+w2vModel = word2vec.KeyedVectors.load_word2vec_format('../word2vec-GoogleNews-vectors/GoogleNews-vectors-negative300.bin.gz', binary=True, limit=50000)
 
 tokenizer = Tokenizer()
 
