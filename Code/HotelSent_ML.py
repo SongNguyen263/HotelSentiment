@@ -7,10 +7,10 @@ Original file is located at
     https://colab.research.google.com/drive/1mv9F8jSnZW93MXxkjUnoxLzkhtmnLhtH
 """
 
-!pip3 install pyvi
-!pip3 install tensorflow
-!pip install gensim
-!pip install pyLDAvis
+# !pip3 install pyvi
+# !pip3 install tensorflow
+# !pip install gensim
+# !pip install pyLDAvis
 
 import numpy as np
 import torch
