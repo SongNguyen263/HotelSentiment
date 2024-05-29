@@ -152,30 +152,7 @@ print(y_train.shape)
 # Chuyển đổi nhãn từ one-hot thành dạng 1D
 y_train_1d = np.argmax(y_train, axis=1)
 
-lr = LogisticRegression()
 
-# Chuyển đổi dữ liệu thành 2D
-train_title_ids_2d = np.array(train_title_ids).reshape(len(train_title_ids), -1)
-train_text_ids_2d = np.array(train_text_ids).reshape(len(train_text_ids), -1)
-
-train_data = np.concatenate((train_title_ids_2d, train_text_ids_2d), axis=1)
-
-lr.fit(train_data, y_train_1d)
-
-
-test_title_ids_2d = np.array(test_title_ids).reshape(len(test_title_ids), -1)
-test_text_ids_2d = np.array(test_text_ids).reshape(len(test_text_ids), -1)
-test_data = np.concatenate((test_title_ids_2d, test_text_ids_2d), axis=1)
-
-y_pred_lr = lr.predict(test_data)
-
-acc_lr = accuracy_score(test_labels, y_pred_lr)
-conf = confusion_matrix(test_labels, y_pred_lr)
-clf_report = classification_report(test_labels, y_pred_lr)
-
-print(f"Accuracy Score of Logistic Regression is: {acc_lr}")
-print(f"Confusion Matrix:\n{conf}")
-print(f"Classification Report:\n{clf_report}")
 
 import pickle
 with open('data.pickle', 'wb') as f:
