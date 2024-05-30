@@ -157,7 +157,7 @@ y_train_1d = np.argmax(y_train, axis=1)
 
 
 import pickle
-with open('data.pickle', 'wb') as f:
+with open('data.pkl', 'wb') as f:
     pickle.dump({
         'train_title_ids': train_title_ids,
         'train_text_ids': train_text_ids,
