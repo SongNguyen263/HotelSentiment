@@ -11,7 +11,13 @@ Original file is located at
 # !pip3 install tensorflow
 # !pip install gensim
 # !pip install pyLDAvis
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import MultinomialNB
 
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+import pickle
 import numpy as np
 import torch
 import pandas as pd                         # 'pandas' to manipulate the dataset.
@@ -154,19 +160,95 @@ print(y_val.shape)
 # Chuyển đổi nhãn từ one-hot thành dạng 1D
 y_train_1d = np.argmax(y_train, axis=1)
 
+dt = DecisionTreeClassifier()
+train_title_ids_2d = np.array(train_title_ids).reshape(len(train_title_ids), -1)
+train_text_ids_2d = np.array(train_text_ids).reshape(len(train_text_ids), -1)
+# Chuẩn bị dữ liệu
+train_data = np.concatenate((train_title_ids_2d, train_text_ids_2d), axis=1)
+dt.fit(train_data, y_train_1d)
+
+test_title_ids_2d = np.array(test_title_ids).reshape(len(test_title_ids), -1)
+test_text_ids_2d = np.array(test_text_ids).reshape(len(test_text_ids), -1)
+test_data = np.concatenate((test_title_ids_2d, test_text_ids_2d), axis=1)
+# Dự đoán trên tập kiểm tra
+y_pred_dt = dt.predict(test_data)
+
+# Đánh giá hiệu suất
+acc_dt = accuracy_score(test_labels, y_pred_dt)
+conf_dt = confusion_matrix(test_labels, y_pred_dt)
+clf_report_dt = classification_report(test_labels, y_pred_dt)
+
+print(f"Accuracy Score of Decision Tree is: {acc_dt}")
+print(f"Confusion Matrix:\n{conf_dt}")
+print(f"Classification Report:\n{clf_report_dt}")
 
 
-import pickle
-with open('data.pkl', 'wb') as f:
-    pickle.dump({
-        'train_title_ids': train_title_ids,
-        'train_text_ids': train_text_ids,
-        'val_title_ids': val_title_ids,
-        'val_text_ids': val_text_ids,
-        'test_title_ids': test_title_ids,
-        'test_text_ids': test_text_ids,
-        'y_train': y_train,
-        'y_val': y_val,
-        'y_train_1d': y_train_1d,
-        'test_labels': test_labels
-    }, f)
+knn = KNeighborsClassifier(n_neighbors=5)
+# Train the Logistic Regression model
+# train_title_ids_2d = np.array(train_title_ids).reshape(len(train_title_ids), -1)
+# train_text_ids_2d = np.array(train_text_ids).reshape(len(train_text_ids), -1)
+# # Chuẩn bị dữ liệu
+# train_data = np.concatenate((train_title_ids_2d, train_text_ids_2d), axis=1)
+# Huấn luyện mô hình Naive Bayes
+knn.fit(train_data, y_train_1d)
+
+# test_title_ids_2d = np.array(test_title_ids).reshape(len(test_title_ids), -1)
+# test_text_ids_2d = np.array(test_text_ids).reshape(len(test_text_ids), -1)
+# test_data = np.concatenate((test_title_ids_2d, test_text_ids_2d), axis=1)
+# Dự đoán trên tập kiểm tra
+y_pred_knn = knn.predict(test_data)
+
+# Đánh giá hiệu suất
+acc_knn = accuracy_score(test_labels, y_pred_knn)
+conf_knn = confusion_matrix(test_labels, y_pred_knn)
+clf_report_knn = classification_report(test_labels, y_pred_knn)
+
+print(f"Accuracy Score of KNN is: {acc_knn}")
+print(f"Confusion Matrix:\n{conf_knn}")
+print(f"Classification Report:\n{clf_report_knn}")
+
+# train_title_ids_2d = np.array(train_title_ids).reshape(len(train_title_ids), -1)
+# train_text_ids_2d = np.array(train_text_ids).reshape(len(train_text_ids), -1)
+# train_data = np.concatenate((train_title_ids_2d, train_text_ids_2d), axis=1)
+
+# test_title_ids_2d = np.array(test_title_ids).reshape(len(test_title_ids), -1)
+# test_text_ids_2d = np.array(test_text_ids).reshape(len(test_text_ids), -1)
+# test_data = np.concatenate((test_title_ids_2d, test_text_ids_2d), axis=1)
+
+# Train the Logistic Regression model
+lr = LogisticRegression()
+lr.fit(train_data, y_train_1d)
+
+# Evaluate the model
+y_pred_lr = lr.predict(test_data)
+acc_lr = accuracy_score(test_labels, y_pred_lr)
+conf = confusion_matrix(test_labels, y_pred_lr)
+clf_report = classification_report(test_labels, y_pred_lr)
+
+print(f"Accuracy Score of Logistic Regression is: {acc_lr}")
+print(f"Confusion Matrix:\n{conf}")
+print(f"Classification Report:\n{clf_report}")
+
+nb = MultinomialNB()
+# # Train the Logistic Regression model
+# train_title_ids_2d = np.array(train_title_ids).reshape(len(train_title_ids), -1)
+# train_text_ids_2d = np.array(train_text_ids).reshape(len(train_text_ids), -1)
+# # Chuẩn bị dữ liệu
+# train_data = np.concatenate((train_title_ids_2d, train_text_ids_2d), axis=1)
+# Huấn luyện mô hình Naive Bayes
+nb.fit(train_data, y_train_1d)
+
+# test_title_ids_2d = np.array(test_title_ids).reshape(len(test_title_ids), -1)
+# test_text_ids_2d = np.array(test_text_ids).reshape(len(test_text_ids), -1)
+# test_data = np.concatenate((test_title_ids_2d, test_text_ids_2d), axis=1)
+# Dự đoán trên tập kiểm tra
+y_pred_nb = nb.predict(test_data)
+
+# Đánh giá hiệu suất
+acc_nb = accuracy_score(test_labels, y_pred_nb)
+conf_nb = confusion_matrix(test_labels, y_pred_nb)
+clf_report_nb = classification_report(test_labels, y_pred_nb)
+
+print(f"Accuracy Score of Naive Bayes is: {acc_nb}")
+print(f"Confusion Matrix:\n{conf_nb}")
+print(f"Classification Report:\n{clf_report_nb}")
